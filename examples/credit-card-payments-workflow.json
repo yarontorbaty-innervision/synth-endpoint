@@ -1,0 +1,725 @@
+{
+  "id": "workflow_cc_payments_001",
+  "name": "Credit Card Payments Processing",
+  "description": "Process credit card payments for vendor invoices using SwipeSimple virtual terminal and record in Silo accounting system",
+  "version": "1.0.0",
+  "source_video": "Credit Card Payments 102125.mov",
+  "source_application": "SwipeSimple + Silo",
+  "screens": [
+    {
+      "id": "screen_invoice_view",
+      "name": "Invoice Statement View",
+      "description": "PDF invoice/statement viewer showing vendor billing details",
+      "width": 1200,
+      "height": 800,
+      "elements": [
+        {
+          "id": "header_company",
+          "type": "heading",
+          "bounds": { "x": 120, "y": 80, "width": 300, "height": 60 },
+          "text": "Carcione's Fresh"
+        },
+        {
+          "id": "label_company_address",
+          "type": "label",
+          "bounds": { "x": 120, "y": 140, "width": 250, "height": 60 },
+          "text": "P.O. Box 2281\nSouth San Francisco, CA 94083-2281\n650-583-8989"
+        },
+        {
+          "id": "label_statement_title",
+          "type": "heading",
+          "bounds": { "x": 450, "y": 80, "width": 150, "height": 30 },
+          "text": "Statement"
+        },
+        {
+          "id": "label_vendor_name",
+          "type": "heading",
+          "bounds": { "x": 120, "y": 220, "width": 300, "height": 30 },
+          "text": "New India Bazar (Sharda)"
+        },
+        {
+          "id": "label_vendor_address",
+          "type": "label",
+          "bounds": { "x": 120, "y": 250, "width": 250, "height": 60 },
+          "text": "2213 El Camino Real\nSanta Clara, CA 95050"
+        },
+        {
+          "id": "label_statement_date",
+          "type": "label",
+          "bounds": { "x": 400, "y": 220, "width": 200, "height": 40 },
+          "text": "STATEMENT AS OF\n10/18/2025"
+        },
+        {
+          "id": "table_invoices",
+          "type": "table",
+          "bounds": { "x": 100, "y": 320, "width": 500, "height": 250 }
+        },
+        {
+          "id": "label_total_due",
+          "type": "label",
+          "bounds": { "x": 400, "y": 590, "width": 200, "height": 30 },
+          "text": "$25,934.00",
+          "style": { "fontWeight": "bold", "fontSize": "18px" }
+        }
+      ],
+      "background_color": "#ffffff"
+    },
+    {
+      "id": "screen_swipesimple_login",
+      "name": "SwipeSimple Login",
+      "description": "SwipeSimple payment gateway login screen",
+      "width": 500,
+      "height": 600,
+      "elements": [
+        {
+          "id": "logo_swipesimple",
+          "type": "image",
+          "bounds": { "x": 150, "y": 60, "width": 200, "height": 50 },
+          "text": "SwipeSimple"
+        },
+        {
+          "id": "heading_signin",
+          "type": "heading",
+          "bounds": { "x": 150, "y": 140, "width": 200, "height": 30 },
+          "text": "Please sign in"
+        },
+        {
+          "id": "label_email",
+          "type": "label",
+          "bounds": { "x": 75, "y": 190, "width": 350, "height": 20 },
+          "text": "xponce@carcionefresh.com"
+        },
+        {
+          "id": "link_different_email",
+          "type": "link",
+          "bounds": { "x": 75, "y": 215, "width": 180, "height": 20 },
+          "text": "Not you? Use a different email."
+        },
+        {
+          "id": "input_password",
+          "type": "password_input",
+          "bounds": { "x": 75, "y": 260, "width": 350, "height": 45 },
+          "placeholder": "Password",
+          "required": true
+        },
+        {
+          "id": "btn_signin",
+          "type": "button",
+          "bounds": { "x": 75, "y": 330, "width": 350, "height": 45 },
+          "text": "Sign In",
+          "style": { "backgroundColor": "#0066cc", "color": "#ffffff" }
+        },
+        {
+          "id": "link_forgot_password",
+          "type": "link",
+          "bounds": { "x": 175, "y": 395, "width": 150, "height": 20 },
+          "text": "Forgot Password"
+        }
+      ],
+      "background_color": "#f8f9fa"
+    },
+    {
+      "id": "screen_virtual_terminal",
+      "name": "Virtual Terminal - New Transaction",
+      "description": "SwipeSimple virtual terminal for processing credit card payments",
+      "width": 700,
+      "height": 750,
+      "elements": [
+        {
+          "id": "logo_hms",
+          "type": "image",
+          "bounds": { "x": 30, "y": 20, "width": 120, "height": 60 },
+          "text": "Host Merchant Services"
+        },
+        {
+          "id": "heading_virtual_terminal",
+          "type": "heading",
+          "bounds": { "x": 180, "y": 30, "width": 200, "height": 30 },
+          "text": "Virtual Terminal"
+        },
+        {
+          "id": "heading_new_transaction",
+          "type": "heading",
+          "bounds": { "x": 180, "y": 70, "width": 400, "height": 30 },
+          "text": "New Transaction: New India Bazar Sharda"
+        },
+        {
+          "id": "nav_virtual_terminal",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 120, "width": 150, "height": 35 },
+          "text": "Virtual Terminal",
+          "style": { "backgroundColor": "#0066cc", "color": "#ffffff" }
+        },
+        {
+          "id": "nav_scheduled_payments",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 160, "width": 150, "height": 35 },
+          "text": "Scheduled Payments"
+        },
+        {
+          "id": "nav_invoices",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 200, "width": 150, "height": 35 },
+          "text": "Invoices"
+        },
+        {
+          "id": "nav_payment_links",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 240, "width": 150, "height": 35 },
+          "text": "Payment Links"
+        },
+        {
+          "id": "label_section_reporting",
+          "type": "label",
+          "bounds": { "x": 20, "y": 290, "width": 150, "height": 20 },
+          "text": "REPORTING DASHBOARD",
+          "style": { "fontSize": "11px", "color": "#666" }
+        },
+        {
+          "id": "nav_overview",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 315, "width": 150, "height": 35 },
+          "text": "Overview"
+        },
+        {
+          "id": "nav_transactions",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 355, "width": 150, "height": 35 },
+          "text": "Transactions"
+        },
+        {
+          "id": "nav_customers",
+          "type": "menu_item",
+          "bounds": { "x": 20, "y": 395, "width": 150, "height": 35 },
+          "text": "Customers"
+        },
+        {
+          "id": "label_payment_method",
+          "type": "label",
+          "bounds": { "x": 200, "y": 120, "width": 150, "height": 20 },
+          "text": "Payment Method: Card"
+        },
+        {
+          "id": "label_choose_card",
+          "type": "label",
+          "bounds": { "x": 200, "y": 155, "width": 100, "height": 20 },
+          "text": "Choose Card"
+        },
+        {
+          "id": "dropdown_card",
+          "type": "dropdown",
+          "bounds": { "x": 200, "y": 175, "width": 200, "height": 40 },
+          "options": ["VISA 8701 - 08/28"],
+          "value": "VISA 8701 - 08/28"
+        },
+        {
+          "id": "label_cardholder_name",
+          "type": "label",
+          "bounds": { "x": 420, "y": 155, "width": 120, "height": 20 },
+          "text": "Cardholder Name"
+        },
+        {
+          "id": "input_cardholder",
+          "type": "text_input",
+          "bounds": { "x": 420, "y": 175, "width": 200, "height": 40 },
+          "value": "Hamant K Sharda"
+        },
+        {
+          "id": "toggle_address",
+          "type": "toggle",
+          "bounds": { "x": 200, "y": 240, "width": 50, "height": 24 },
+          "label": "Address (Optional, used for Address Verification Service)"
+        },
+        {
+          "id": "toggle_reference",
+          "type": "toggle",
+          "bounds": { "x": 200, "y": 280, "width": 50, "height": 24 },
+          "label": "Reference Number (Optional)"
+        },
+        {
+          "id": "toggle_line_items",
+          "type": "toggle",
+          "bounds": { "x": 200, "y": 320, "width": 50, "height": 24 },
+          "label": "Line Items (Optional)"
+        },
+        {
+          "id": "label_amount",
+          "type": "label",
+          "bounds": { "x": 200, "y": 370, "width": 80, "height": 20 },
+          "text": "Amount"
+        },
+        {
+          "id": "input_amount",
+          "type": "text_input",
+          "bounds": { "x": 200, "y": 395, "width": 300, "height": 45 },
+          "placeholder": "0.00",
+          "label": "$"
+        },
+        {
+          "id": "btn_charge",
+          "type": "button",
+          "bounds": { "x": 520, "y": 395, "width": 120, "height": 45 },
+          "text": "Charge",
+          "style": { "backgroundColor": "#28a745", "color": "#ffffff" }
+        }
+      ],
+      "background_color": "#ffffff"
+    },
+    {
+      "id": "screen_silo_pay_vendor",
+      "name": "Silo - Pay Vendor",
+      "description": "Silo accounting system vendor payment dialog",
+      "width": 500,
+      "height": 400,
+      "elements": [
+        {
+          "id": "heading_pay_vendor",
+          "type": "heading",
+          "bounds": { "x": 30, "y": 20, "width": 150, "height": 30 },
+          "text": "Pay Vendor"
+        },
+        {
+          "id": "btn_close",
+          "type": "button",
+          "bounds": { "x": 450, "y": 20, "width": 30, "height": 30 },
+          "text": "×"
+        },
+        {
+          "id": "label_vendor",
+          "type": "label",
+          "bounds": { "x": 30, "y": 70, "width": 80, "height": 20 },
+          "text": "VENDOR"
+        },
+        {
+          "id": "dropdown_vendor",
+          "type": "dropdown",
+          "bounds": { "x": 30, "y": 95, "width": 300, "height": 40 },
+          "placeholder": "Select vendor",
+          "options": [
+            "A & A Fresh Produce LLC",
+            "A&A Organic Farms, Corp.",
+            "A & A Produce Inc",
+            "Abel Cervantes",
+            "Abel Estrada",
+            "A. Casas Farms, Inc",
+            "A&E Speciality Marketing",
+            "Agricultural Marketing",
+            "Agroproductos de Nayarit"
+          ]
+        }
+      ],
+      "background_color": "#ffffff"
+    },
+    {
+      "id": "screen_silo_record_payment",
+      "name": "Silo - Record Payments / Apply Credits",
+      "description": "Silo accounting system payment recording screen",
+      "width": 900,
+      "height": 700,
+      "elements": [
+        {
+          "id": "heading_record_payment",
+          "type": "heading",
+          "bounds": { "x": 30, "y": 20, "width": 350, "height": 30 },
+          "text": "Record Payments / Apply Credits"
+        },
+        {
+          "id": "btn_close_modal",
+          "type": "button",
+          "bounds": { "x": 850, "y": 20, "width": 30, "height": 30 },
+          "text": "×"
+        },
+        {
+          "id": "label_customer",
+          "type": "label",
+          "bounds": { "x": 30, "y": 70, "width": 100, "height": 20 },
+          "text": "CUSTOMER"
+        },
+        {
+          "id": "dropdown_customer",
+          "type": "dropdown",
+          "bounds": { "x": 30, "y": 95, "width": 200, "height": 40 },
+          "value": "Chen Li",
+          "options": ["Chen Li", "New India Bazar (Sharda)", "Golden Produce"]
+        },
+        {
+          "id": "label_current",
+          "type": "label",
+          "bounds": { "x": 260, "y": 70, "width": 80, "height": 20 },
+          "text": "CURRENT"
+        },
+        {
+          "id": "value_current",
+          "type": "label",
+          "bounds": { "x": 260, "y": 95, "width": 80, "height": 30 },
+          "text": "$8,352.50",
+          "style": { "fontWeight": "bold" }
+        },
+        {
+          "id": "label_total_past_due",
+          "type": "label",
+          "bounds": { "x": 360, "y": 70, "width": 120, "height": 20 },
+          "text": "TOTAL PAST DUE"
+        },
+        {
+          "id": "value_past_due",
+          "type": "label",
+          "bounds": { "x": 360, "y": 95, "width": 100, "height": 30 },
+          "text": "$13,077.00",
+          "style": { "fontWeight": "bold", "color": "#dc3545" }
+        },
+        {
+          "id": "tab_record_payment",
+          "type": "tab",
+          "bounds": { "x": 30, "y": 150, "width": 140, "height": 35 },
+          "text": "Record Payment",
+          "style": { "borderBottom": "2px solid #0066cc" }
+        },
+        {
+          "id": "tab_apply_credit",
+          "type": "tab",
+          "bounds": { "x": 180, "y": 150, "width": 120, "height": 35 },
+          "text": "Apply Credit"
+        },
+        {
+          "id": "label_payment_amount",
+          "type": "label",
+          "bounds": { "x": 30, "y": 210, "width": 150, "height": 20 },
+          "text": "PAYMENT AMOUNT"
+        },
+        {
+          "id": "input_payment_amount",
+          "type": "text_input",
+          "bounds": { "x": 30, "y": 235, "width": 150, "height": 40 },
+          "placeholder": "0.00",
+          "label": "$"
+        },
+        {
+          "id": "label_method",
+          "type": "label",
+          "bounds": { "x": 30, "y": 295, "width": 80, "height": 20 },
+          "text": "METHOD"
+        },
+        {
+          "id": "dropdown_method",
+          "type": "dropdown",
+          "bounds": { "x": 30, "y": 320, "width": 150, "height": 40 },
+          "value": "Cash",
+          "options": ["Cash", "Check", "Credit Card", "Wire Transfer", "ACH"]
+        },
+        {
+          "id": "label_payment_date",
+          "type": "label",
+          "bounds": { "x": 200, "y": 295, "width": 120, "height": 20 },
+          "text": "PAYMENT DATE"
+        },
+        {
+          "id": "input_payment_date",
+          "type": "date_picker",
+          "bounds": { "x": 200, "y": 320, "width": 150, "height": 40 },
+          "value": "10/21/2025"
+        },
+        {
+          "id": "label_notes",
+          "type": "label",
+          "bounds": { "x": 30, "y": 380, "width": 60, "height": 20 },
+          "text": "NOTES"
+        },
+        {
+          "id": "input_notes",
+          "type": "textarea",
+          "bounds": { "x": 30, "y": 405, "width": 320, "height": 80 },
+          "placeholder": "Optional notes..."
+        },
+        {
+          "id": "table_invoices_select",
+          "type": "table",
+          "bounds": { "x": 400, "y": 210, "width": 470, "height": 350 }
+        },
+        {
+          "id": "btn_cancel",
+          "type": "button",
+          "bounds": { "x": 680, "y": 620, "width": 90, "height": 40 },
+          "text": "Cancel",
+          "style": { "backgroundColor": "#f8f9fa", "color": "#333" }
+        },
+        {
+          "id": "btn_record_payment",
+          "type": "button",
+          "bounds": { "x": 780, "y": 620, "width": 140, "height": 40 },
+          "text": "Record payment",
+          "style": { "backgroundColor": "#0066cc", "color": "#ffffff" }
+        }
+      ],
+      "background_color": "#ffffff"
+    },
+    {
+      "id": "screen_silo_payments_list",
+      "name": "Silo - Payments List",
+      "description": "Silo accounting system payments overview tab",
+      "width": 1100,
+      "height": 700,
+      "elements": [
+        {
+          "id": "nav_silo_logo",
+          "type": "image",
+          "bounds": { "x": 20, "y": 15, "width": 60, "height": 40 },
+          "text": "Silo"
+        },
+        {
+          "id": "nav_finance",
+          "type": "dropdown",
+          "bounds": { "x": 100, "y": 20, "width": 100, "height": 35 },
+          "text": "Finance",
+          "options": ["Finance", "Sales", "Expenses"]
+        },
+        {
+          "id": "tab_overview",
+          "type": "tab",
+          "bounds": { "x": 240, "y": 80, "width": 80, "height": 35 },
+          "text": "Overview"
+        },
+        {
+          "id": "tab_invoices",
+          "type": "tab",
+          "bounds": { "x": 330, "y": 80, "width": 80, "height": 35 },
+          "text": "Invoices"
+        },
+        {
+          "id": "tab_statements",
+          "type": "tab",
+          "bounds": { "x": 420, "y": 80, "width": 100, "height": 35 },
+          "text": "Statements"
+        },
+        {
+          "id": "tab_payments",
+          "type": "tab",
+          "bounds": { "x": 530, "y": 80, "width": 90, "height": 35 },
+          "text": "Payments",
+          "style": { "borderBottom": "2px solid #0066cc", "fontWeight": "bold" }
+        },
+        {
+          "id": "tab_credits",
+          "type": "tab",
+          "bounds": { "x": 630, "y": 80, "width": 70, "height": 35 },
+          "text": "Credits"
+        },
+        {
+          "id": "table_payments",
+          "type": "table",
+          "bounds": { "x": 240, "y": 130, "width": 840, "height": 520 }
+        }
+      ],
+      "background_color": "#f5f7fa"
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_001",
+      "type": "wait",
+      "screen_id": "screen_invoice_view",
+      "duration": 2000,
+      "delay_before": 0
+    },
+    {
+      "id": "action_002",
+      "type": "click",
+      "screen_id": "screen_swipesimple_login",
+      "element_id": "input_password",
+      "delay_before": 500
+    },
+    {
+      "id": "action_003",
+      "type": "type",
+      "screen_id": "screen_swipesimple_login",
+      "element_id": "input_password",
+      "value": "SecureP@ssw0rd!",
+      "delay_before": 300,
+      "typing_speed": 40
+    },
+    {
+      "id": "action_004",
+      "type": "click",
+      "screen_id": "screen_swipesimple_login",
+      "element_id": "btn_signin",
+      "delay_before": 600,
+      "next_screen_id": "screen_virtual_terminal"
+    },
+    {
+      "id": "action_005",
+      "type": "wait",
+      "screen_id": "screen_virtual_terminal",
+      "duration": 1500,
+      "delay_before": 0
+    },
+    {
+      "id": "action_006",
+      "type": "click",
+      "screen_id": "screen_virtual_terminal",
+      "element_id": "dropdown_card",
+      "delay_before": 500
+    },
+    {
+      "id": "action_007",
+      "type": "select",
+      "screen_id": "screen_virtual_terminal",
+      "element_id": "dropdown_card",
+      "value": "VISA 8701 - 08/28",
+      "delay_before": 400
+    },
+    {
+      "id": "action_008",
+      "type": "click",
+      "screen_id": "screen_virtual_terminal",
+      "element_id": "input_amount",
+      "delay_before": 600
+    },
+    {
+      "id": "action_009",
+      "type": "type",
+      "screen_id": "screen_virtual_terminal",
+      "element_id": "input_amount",
+      "value": "25934.00",
+      "delay_before": 300,
+      "typing_speed": 45
+    },
+    {
+      "id": "action_010",
+      "type": "click",
+      "screen_id": "screen_virtual_terminal",
+      "element_id": "btn_charge",
+      "delay_before": 800
+    },
+    {
+      "id": "action_011",
+      "type": "wait",
+      "screen_id": "screen_virtual_terminal",
+      "duration": 2000
+    },
+    {
+      "id": "action_012",
+      "type": "navigate",
+      "screen_id": "screen_silo_pay_vendor",
+      "delay_before": 1000,
+      "next_screen_id": "screen_silo_pay_vendor"
+    },
+    {
+      "id": "action_013",
+      "type": "click",
+      "screen_id": "screen_silo_pay_vendor",
+      "element_id": "dropdown_vendor",
+      "delay_before": 500
+    },
+    {
+      "id": "action_014",
+      "type": "select",
+      "screen_id": "screen_silo_pay_vendor",
+      "element_id": "dropdown_vendor",
+      "value": "A & A Fresh Produce LLC",
+      "delay_before": 600,
+      "next_screen_id": "screen_silo_record_payment"
+    },
+    {
+      "id": "action_015",
+      "type": "click",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "dropdown_customer",
+      "delay_before": 500
+    },
+    {
+      "id": "action_016",
+      "type": "select",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "dropdown_customer",
+      "value": "Chen Li",
+      "delay_before": 400
+    },
+    {
+      "id": "action_017",
+      "type": "click",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "input_payment_amount",
+      "delay_before": 500
+    },
+    {
+      "id": "action_018",
+      "type": "type",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "input_payment_amount",
+      "value": "7452.00",
+      "delay_before": 300,
+      "typing_speed": 50
+    },
+    {
+      "id": "action_019",
+      "type": "click",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "dropdown_method",
+      "delay_before": 400
+    },
+    {
+      "id": "action_020",
+      "type": "select",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "dropdown_method",
+      "value": "Cash",
+      "delay_before": 300
+    },
+    {
+      "id": "action_021",
+      "type": "click",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "input_payment_date",
+      "delay_before": 400
+    },
+    {
+      "id": "action_022",
+      "type": "type",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "input_payment_date",
+      "value": "10/21/2025",
+      "delay_before": 200
+    },
+    {
+      "id": "action_023",
+      "type": "click",
+      "screen_id": "screen_silo_record_payment",
+      "element_id": "btn_record_payment",
+      "delay_before": 800,
+      "next_screen_id": "screen_silo_payments_list"
+    },
+    {
+      "id": "action_024",
+      "type": "wait",
+      "screen_id": "screen_silo_payments_list",
+      "duration": 2000
+    },
+    {
+      "id": "action_025",
+      "type": "scroll",
+      "screen_id": "screen_silo_payments_list",
+      "value": 200,
+      "delay_before": 500
+    }
+  ],
+  "start_screen_id": "screen_invoice_view",
+  "settings": {
+    "simulation_speed": 1.0,
+    "humanize_behavior": true,
+    "theme": "light",
+    "applications": [
+      {
+        "name": "SwipeSimple",
+        "url": "login.cardflight.com",
+        "type": "payment_gateway"
+      },
+      {
+        "name": "Silo",
+        "url": "app.usesilo.com",
+        "type": "accounting"
+      }
+    ]
+  },
+  "created_at": "2026-01-14T12:00:00Z",
+  "updated_at": "2026-01-14T12:00:00Z"
+}

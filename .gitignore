@@ -50,6 +50,9 @@ generator/release/
 generated-app/
 output/
 
+# Extracted frames
+examples/frames/
+
 # Logs
 *.log
 npm-debug.log*
