@@ -1,0 +1,52 @@
+{
+  "name": "innervision-generator",
+  "version": "0.1.0",
+  "description": "Desktop application generator for synthetic workflow endpoints",
+  "main": "dist/main/index.js",
+  "author": "Innervision",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/main/index.ts",
+    "build": "tsc && electron-builder",
+    "build:macos": "tsc && electron-builder --mac",
+    "build:windows": "tsc && electron-builder --win",
+    "generate": "tsx src/cli/generate.ts",
+    "preview": "tsx src/cli/preview.ts",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "electron": "^28.1.0",
+    "electron-builder": "^24.9.1",
+    "eslint": "^8.56.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "build": {
+    "appId": "ai.innervision.synth-endpoint",
+    "productName": "Innervision Synth",
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "target": ["nsis", "portable"]
+    }
+  }
+}

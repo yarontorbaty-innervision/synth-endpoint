@@ -1,0 +1,91 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+analyzer/dist/
+generator/dist/
+generator/release/
+*.dmg
+*.exe
+*.app
+
+# Generated apps
+generated-app/
+output/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# ML Models (large files)
+*.pt
+*.pth
+*.onnx
+*.h5
+models/
+
+# Extracted frames and temporary files
+frames/
+temp/
+tmp/
+*.tmp
+
+# Video files (large)
+*.mp4
+*.avi
+*.mov
+*.mkv
+!examples/*.mp4

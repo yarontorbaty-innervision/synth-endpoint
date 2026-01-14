@@ -1,0 +1,33 @@
+# Innervision Analyzer - Default Configuration
+
+# Frame extraction settings
+frame_extraction:
+  interval: 0.5  # Seconds between frames
+  max_frames: 10000
+  resize_width: null  # Set to resize frames
+  quality: 95
+
+# UI element detection
+ui_detection:
+  model_name: "ui-detector-v1"
+  confidence_threshold: 0.7
+  nms_threshold: 0.4
+  detect_text: true
+  ocr_language: "eng"
+
+# Action detection
+action_detection:
+  click_threshold: 0.8
+  typing_detection: true
+  scroll_detection: true
+  min_action_gap: 0.1  # Minimum seconds between actions
+
+# Workflow mapping
+workflow_mapping:
+  merge_similar_screens: true
+  similarity_threshold: 0.9
+  infer_navigation: true
+
+# Output settings
+output_format: "json"
+verbose: false

@@ -1,0 +1,279 @@
+{
+  "id": "workflow_sample_001",
+  "name": "Sample ERP Login and Navigation",
+  "description": "A sample workflow demonstrating login to an ERP system and navigating to the inventory module",
+  "version": "1.0.0",
+  "source_video": null,
+  "source_application": "Sample ERP System",
+  "screens": [
+    {
+      "id": "screen_login",
+      "name": "Login Screen",
+      "description": "User authentication screen",
+      "width": 1024,
+      "height": 768,
+      "elements": [
+        {
+          "id": "heading_title",
+          "type": "heading",
+          "bounds": { "x": 362, "y": 100, "width": 300, "height": 40 },
+          "text": "Enterprise Resource Planning"
+        },
+        {
+          "id": "label_username",
+          "type": "label",
+          "bounds": { "x": 362, "y": 200, "width": 100, "height": 20 },
+          "text": "Username"
+        },
+        {
+          "id": "input_username",
+          "type": "text_input",
+          "bounds": { "x": 362, "y": 225, "width": 300, "height": 40 },
+          "placeholder": "Enter your username",
+          "required": true
+        },
+        {
+          "id": "label_password",
+          "type": "label",
+          "bounds": { "x": 362, "y": 285, "width": 100, "height": 20 },
+          "text": "Password"
+        },
+        {
+          "id": "input_password",
+          "type": "password_input",
+          "bounds": { "x": 362, "y": 310, "width": 300, "height": 40 },
+          "placeholder": "Enter your password",
+          "required": true
+        },
+        {
+          "id": "checkbox_remember",
+          "type": "checkbox",
+          "bounds": { "x": 362, "y": 370, "width": 200, "height": 24 },
+          "label": "Remember me"
+        },
+        {
+          "id": "btn_login",
+          "type": "button",
+          "bounds": { "x": 362, "y": 420, "width": 300, "height": 45 },
+          "text": "Sign In"
+        },
+        {
+          "id": "link_forgot",
+          "type": "link",
+          "bounds": { "x": 362, "y": 480, "width": 150, "height": 20 },
+          "text": "Forgot password?"
+        }
+      ],
+      "background_color": "#f5f5f5"
+    },
+    {
+      "id": "screen_dashboard",
+      "name": "Dashboard",
+      "description": "Main dashboard after login",
+      "width": 1024,
+      "height": 768,
+      "elements": [
+        {
+          "id": "nav_sidebar",
+          "type": "sidebar",
+          "bounds": { "x": 0, "y": 0, "width": 220, "height": 768 }
+        },
+        {
+          "id": "nav_dashboard",
+          "type": "menu_item",
+          "bounds": { "x": 10, "y": 80, "width": 200, "height": 40 },
+          "text": "Dashboard"
+        },
+        {
+          "id": "nav_inventory",
+          "type": "menu_item",
+          "bounds": { "x": 10, "y": 130, "width": 200, "height": 40 },
+          "text": "Inventory"
+        },
+        {
+          "id": "nav_orders",
+          "type": "menu_item",
+          "bounds": { "x": 10, "y": 180, "width": 200, "height": 40 },
+          "text": "Orders"
+        },
+        {
+          "id": "nav_reports",
+          "type": "menu_item",
+          "bounds": { "x": 10, "y": 230, "width": 200, "height": 40 },
+          "text": "Reports"
+        },
+        {
+          "id": "heading_welcome",
+          "type": "heading",
+          "bounds": { "x": 250, "y": 30, "width": 400, "height": 40 },
+          "text": "Welcome, John Doe"
+        },
+        {
+          "id": "panel_stats",
+          "type": "panel",
+          "bounds": { "x": 250, "y": 100, "width": 720, "height": 200 }
+        },
+        {
+          "id": "label_orders_today",
+          "type": "label",
+          "bounds": { "x": 280, "y": 130, "width": 150, "height": 30 },
+          "text": "Orders Today: 47"
+        },
+        {
+          "id": "label_revenue",
+          "type": "label",
+          "bounds": { "x": 500, "y": 130, "width": 200, "height": 30 },
+          "text": "Revenue: $12,450"
+        }
+      ],
+      "background_color": "#ffffff"
+    },
+    {
+      "id": "screen_inventory",
+      "name": "Inventory Management",
+      "description": "Inventory listing and management",
+      "width": 1024,
+      "height": 768,
+      "elements": [
+        {
+          "id": "nav_sidebar_inv",
+          "type": "sidebar",
+          "bounds": { "x": 0, "y": 0, "width": 220, "height": 768 }
+        },
+        {
+          "id": "heading_inventory",
+          "type": "heading",
+          "bounds": { "x": 250, "y": 30, "width": 300, "height": 40 },
+          "text": "Inventory Management"
+        },
+        {
+          "id": "input_search",
+          "type": "text_input",
+          "bounds": { "x": 250, "y": 90, "width": 300, "height": 40 },
+          "placeholder": "Search products..."
+        },
+        {
+          "id": "dropdown_category",
+          "type": "dropdown",
+          "bounds": { "x": 570, "y": 90, "width": 180, "height": 40 },
+          "label": "Category",
+          "options": ["All Categories", "Electronics", "Furniture", "Office Supplies", "Raw Materials"]
+        },
+        {
+          "id": "btn_add_product",
+          "type": "button",
+          "bounds": { "x": 850, "y": 90, "width": 120, "height": 40 },
+          "text": "+ Add Product"
+        },
+        {
+          "id": "table_inventory",
+          "type": "table",
+          "bounds": { "x": 250, "y": 160, "width": 720, "height": 500 }
+        }
+      ],
+      "background_color": "#ffffff"
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_001",
+      "type": "click",
+      "screen_id": "screen_login",
+      "element_id": "input_username",
+      "delay_before": 500
+    },
+    {
+      "id": "action_002",
+      "type": "type",
+      "screen_id": "screen_login",
+      "element_id": "input_username",
+      "value": "john.doe@company.com",
+      "delay_before": 200,
+      "typing_speed": 45
+    },
+    {
+      "id": "action_003",
+      "type": "click",
+      "screen_id": "screen_login",
+      "element_id": "input_password",
+      "delay_before": 300
+    },
+    {
+      "id": "action_004",
+      "type": "type",
+      "screen_id": "screen_login",
+      "element_id": "input_password",
+      "value": "SecurePass123!",
+      "delay_before": 200,
+      "typing_speed": 40
+    },
+    {
+      "id": "action_005",
+      "type": "click",
+      "screen_id": "screen_login",
+      "element_id": "checkbox_remember",
+      "delay_before": 400
+    },
+    {
+      "id": "action_006",
+      "type": "click",
+      "screen_id": "screen_login",
+      "element_id": "btn_login",
+      "delay_before": 600,
+      "next_screen_id": "screen_dashboard"
+    },
+    {
+      "id": "action_007",
+      "type": "wait",
+      "screen_id": "screen_dashboard",
+      "duration": 1500
+    },
+    {
+      "id": "action_008",
+      "type": "click",
+      "screen_id": "screen_dashboard",
+      "element_id": "nav_inventory",
+      "delay_before": 800,
+      "next_screen_id": "screen_inventory"
+    },
+    {
+      "id": "action_009",
+      "type": "click",
+      "screen_id": "screen_inventory",
+      "element_id": "input_search",
+      "delay_before": 500
+    },
+    {
+      "id": "action_010",
+      "type": "type",
+      "screen_id": "screen_inventory",
+      "element_id": "input_search",
+      "value": "laptop",
+      "delay_before": 200,
+      "typing_speed": 50
+    },
+    {
+      "id": "action_011",
+      "type": "click",
+      "screen_id": "screen_inventory",
+      "element_id": "dropdown_category",
+      "delay_before": 600
+    },
+    {
+      "id": "action_012",
+      "type": "select",
+      "screen_id": "screen_inventory",
+      "element_id": "dropdown_category",
+      "value": "Electronics",
+      "delay_before": 300
+    }
+  ],
+  "start_screen_id": "screen_login",
+  "settings": {
+    "simulation_speed": 1.0,
+    "humanize_behavior": true,
+    "theme": "light"
+  },
+  "created_at": "2026-01-14T10:00:00Z",
+  "updated_at": "2026-01-14T10:00:00Z"
+}

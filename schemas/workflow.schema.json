@@ -1,0 +1,156 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://innervision.ai/schemas/workflow.schema.json",
+  "title": "Workflow Definition",
+  "description": "Schema for Innervision Synth Endpoint workflow definitions",
+  "type": "object",
+  "required": ["id", "name", "screens", "actions"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for this workflow"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name"
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "Description of the workflow"
+    },
+    "version": {
+      "type": "string",
+      "default": "1.0.0",
+      "description": "Workflow definition version"
+    },
+    "source_video": {
+      "type": ["string", "null"],
+      "description": "Source video filename"
+    },
+    "source_application": {
+      "type": ["string", "null"],
+      "description": "Source application name"
+    },
+    "screens": {
+      "type": "array",
+      "description": "Screens in the workflow",
+      "items": {
+        "$ref": "#/definitions/Screen"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "description": "Actions in sequence",
+      "items": {
+        "$ref": "#/definitions/Action"
+      }
+    },
+    "start_screen_id": {
+      "type": ["string", "null"],
+      "description": "ID of starting screen"
+    },
+    "settings": {
+      "type": "object",
+      "description": "Generation settings"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "definitions": {
+    "BoundingBox": {
+      "type": "object",
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "integer", "description": "X coordinate (left)" },
+        "y": { "type": "integer", "description": "Y coordinate (top)" },
+        "width": { "type": "integer", "description": "Width in pixels" },
+        "height": { "type": "integer", "description": "Height in pixels" }
+      }
+    },
+    "UIElementType": {
+      "type": "string",
+      "enum": [
+        "text_input", "password_input", "textarea", "dropdown", "combobox",
+        "checkbox", "radio", "toggle", "button", "link", "tab", "menu_item",
+        "table", "table_row", "table_cell", "date_picker", "time_picker",
+        "slider", "progress_bar", "label", "heading", "icon", "image",
+        "modal", "tooltip", "panel", "sidebar", "toolbar", "navigation"
+      ]
+    },
+    "ActionType": {
+      "type": "string",
+      "enum": [
+        "click", "double_click", "right_click", "type", "select",
+        "check", "uncheck", "toggle", "scroll", "drag", "drop",
+        "hover", "focus", "blur", "submit", "navigate", "wait"
+      ]
+    },
+    "UIElement": {
+      "type": "object",
+      "required": ["id", "type", "bounds"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "$ref": "#/definitions/UIElementType" },
+        "bounds": { "$ref": "#/definitions/BoundingBox" },
+        "text": { "type": ["string", "null"] },
+        "placeholder": { "type": ["string", "null"] },
+        "value": {},
+        "options": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        },
+        "label": { "type": ["string", "null"] },
+        "enabled": { "type": "boolean", "default": true },
+        "visible": { "type": "boolean", "default": true },
+        "required": { "type": "boolean", "default": false },
+        "confidence": { "type": "number", "default": 1.0 },
+        "style": { "type": "object" }
+      }
+    },
+    "Screen": {
+      "type": "object",
+      "required": ["id", "name", "width", "height", "elements"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": ["string", "null"] },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "elements": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/UIElement" }
+        },
+        "background_color": { "type": ["string", "null"] },
+        "screenshot_path": { "type": ["string", "null"] },
+        "source_frame": { "type": ["integer", "null"] },
+        "timestamp": { "type": ["number", "null"] }
+      }
+    },
+    "Action": {
+      "type": "object",
+      "required": ["id", "type", "screen_id"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "$ref": "#/definitions/ActionType" },
+        "screen_id": { "type": "string" },
+        "element_id": { "type": ["string", "null"] },
+        "x": { "type": ["integer", "null"] },
+        "y": { "type": ["integer", "null"] },
+        "value": {},
+        "delay_before": { "type": "number", "default": 0 },
+        "duration": { "type": "number", "default": 0 },
+        "typing_speed": { "type": ["number", "null"] },
+        "mouse_speed": { "type": ["number", "null"] },
+        "next_screen_id": { "type": ["string", "null"] },
+        "timestamp": { "type": ["number", "null"] },
+        "confidence": { "type": "number", "default": 1.0 }
+      }
+    }
+  }
+}
