@@ -57,7 +57,8 @@ class FrameExtractor:
         Yields:
             Extracted frames
         """
-        interval = interval or self.config.interval
+        # Use provided interval, or get from config (which handles fps vs interval)
+        interval = interval or self.config.effective_interval
         
         cap = cv2.VideoCapture(str(video_path))
         

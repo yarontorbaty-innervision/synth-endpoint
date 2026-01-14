@@ -36,6 +36,11 @@ pytest>=8.0.0
 pytest-cov>=4.1.0
 pytest-asyncio>=0.23.0
 
+# OS Control (for workflow playback)
+pyautogui>=0.9.54
+pynput>=1.7.6
+pyobjc-framework-Quartz>=10.1  # macOS screen info
+
 # Development
 black>=24.1.0
 ruff>=0.2.0

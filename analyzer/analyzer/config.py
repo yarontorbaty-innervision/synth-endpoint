@@ -12,10 +12,20 @@ import yaml
 class FrameExtractionConfig(BaseModel):
     """Configuration for frame extraction."""
     
-    interval: float = Field(default=0.5, description="Interval between frames in seconds")
-    max_frames: int = Field(default=10000, description="Maximum number of frames to extract")
+    # Frame rate: use fps OR interval, not both
+    fps: Optional[float] = Field(default=None, description="Frames per second to extract (e.g., 30 for 30 FPS)")
+    interval: Optional[float] = Field(default=None, description="Interval between frames in seconds (if fps not set)")
+    
+    max_frames: int = Field(default=100000, description="Maximum number of frames to extract")
     resize_width: Optional[int] = Field(default=None, description="Resize frames to this width")
     quality: int = Field(default=95, description="JPEG quality for saved frames")
+    
+    @property
+    def effective_interval(self) -> float:
+        """Get the effective interval between frames."""
+        if self.fps is not None and self.fps > 0:
+            return 1.0 / self.fps
+        return self.interval if self.interval is not None else 0.5
 
 
 class UIDetectionConfig(BaseModel):
