@@ -2,8 +2,10 @@
 Maps detected UI elements and actions to workflow definitions.
 """
 
+from __future__ import annotations
 from datetime import datetime
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 import logging
 import uuid
 import hashlib
@@ -36,15 +38,15 @@ class WorkflowMapper:
     - Generate workflow definition
     """
     
-    def __init__(self, config: WorkflowMappingConfig | None = None):
+    def __init__(self, config: Optional[WorkflowMappingConfig] = None):
         self.config = config or WorkflowMappingConfig()
     
     def map_workflow(
         self,
-        frames: list[Frame],
-        ui_detections: list[UIDetection],
-        actions: list[ActionDetection],
-        source_video: str | None = None
+        frames: List[Frame],
+        ui_detections: List[UIDetection],
+        actions: List[ActionDetection],
+        source_video: Optional[str] = None
     ) -> WorkflowDefinition:
         """
         Map frames, UI detections, and actions to a workflow definition.
@@ -88,9 +90,9 @@ class WorkflowMapper:
     
     def _identify_screens(
         self,
-        frames: list[Frame],
-        ui_detections: list[UIDetection]
-    ) -> list[Screen]:
+        frames: List[Frame],
+        ui_detections: List[UIDetection]
+    ) -> List[Screen]:
         """
         Identify unique screens from frames.
         
@@ -142,9 +144,9 @@ class WorkflowMapper:
     
     def _map_frames_to_screens(
         self,
-        frames: list[Frame],
-        screens: list[Screen]
-    ) -> dict[int, str]:
+        frames: List[Frame],
+        screens: List[Screen]
+    ) -> Dict[int, str]:
         """
         Map each frame index to a screen ID.
         """
@@ -178,10 +180,10 @@ class WorkflowMapper:
     
     def _map_actions(
         self,
-        actions: list[ActionDetection],
-        frame_to_screen: dict[int, str],
-        ui_detections: list[UIDetection]
-    ) -> list[Action]:
+        actions: List[ActionDetection],
+        frame_to_screen: Dict[int, str],
+        ui_detections: List[UIDetection]
+    ) -> List[Action]:
         """
         Convert detected actions to workflow actions.
         """
@@ -229,10 +231,10 @@ class WorkflowMapper:
     
     def _infer_navigation(
         self,
-        actions: list[Action],
-        frame_to_screen: dict[int, str],
-        frames: list[Frame]
-    ) -> list[Action]:
+        actions: List[Action],
+        frame_to_screen: Dict[int, str],
+        frames: List[Frame]
+    ) -> List[Action]:
         """
         Infer navigation between screens from action sequence.
         """
@@ -240,7 +242,7 @@ class WorkflowMapper:
             return actions
         
         # Build frame number to screen mapping by timestamp
-        timestamp_to_screen: list[tuple[float, str]] = []
+        timestamp_to_screen: List[Tuple[float, str]] = []
         for frame_idx, screen_id in frame_to_screen.items():
             if frame_idx < len(frames):
                 timestamp_to_screen.append((frames[frame_idx].timestamp, screen_id))
@@ -283,7 +285,7 @@ class WorkflowMapper:
         
         return similarity
     
-    def _generate_workflow_name(self, source_video: str | None) -> str:
+    def _generate_workflow_name(self, source_video: Optional[str]) -> str:
         """Generate a human-readable workflow name."""
         if source_video:
             # Extract name from video filename

@@ -2,7 +2,9 @@
 Configuration management for the Innervision Analyzer.
 """
 
+from __future__ import annotations
 from pathlib import Path
+from typing import Optional
 from pydantic import BaseModel, Field
 import yaml
 
@@ -12,7 +14,7 @@ class FrameExtractionConfig(BaseModel):
     
     interval: float = Field(default=0.5, description="Interval between frames in seconds")
     max_frames: int = Field(default=10000, description="Maximum number of frames to extract")
-    resize_width: int | None = Field(default=None, description="Resize frames to this width")
+    resize_width: Optional[int] = Field(default=None, description="Resize frames to this width")
     quality: int = Field(default=95, description="JPEG quality for saved frames")
 
 
@@ -55,7 +57,7 @@ class AnalyzerConfig(BaseModel):
     verbose: bool = Field(default=False, description="Enable verbose logging")
     
     @classmethod
-    def from_file(cls, path: Path) -> "AnalyzerConfig":
+    def from_file(cls, path: Path) -> AnalyzerConfig:
         """Load configuration from a YAML file."""
         with open(path) as f:
             data = yaml.safe_load(f)

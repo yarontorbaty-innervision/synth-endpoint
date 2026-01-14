@@ -2,7 +2,8 @@
 User action detection from video frames.
 """
 
-from typing import Any
+from __future__ import annotations
+from typing import Any, List, Optional, Tuple
 import logging
 import uuid
 
@@ -29,14 +30,14 @@ class ActionDetector:
     - Navigation (by analyzing screen transitions)
     """
     
-    def __init__(self, config: ActionDetectionConfig | None = None):
+    def __init__(self, config: Optional[ActionDetectionConfig] = None):
         self.config = config or ActionDetectionConfig()
     
     def detect_actions(
         self,
-        frames: list[Frame],
-        ui_detections: list[UIDetection]
-    ) -> list[ActionDetection]:
+        frames: List[Frame],
+        ui_detections: List[UIDetection]
+    ) -> List[ActionDetection]:
         """
         Detect user actions from a sequence of frames.
         
@@ -68,9 +69,9 @@ class ActionDetector:
     
     def _detect_clicks(
         self,
-        frames: list[Frame],
-        ui_detections: list[UIDetection]
-    ) -> list[ActionDetection]:
+        frames: List[Frame],
+        ui_detections: List[UIDetection]
+    ) -> List[ActionDetection]:
         """
         Detect click actions by analyzing cursor position and UI changes.
         
@@ -117,9 +118,9 @@ class ActionDetector:
     
     def _detect_typing(
         self,
-        frames: list[Frame],
-        ui_detections: list[UIDetection]
-    ) -> list[ActionDetection]:
+        frames: List[Frame],
+        ui_detections: List[UIDetection]
+    ) -> List[ActionDetection]:
         """
         Detect typing actions by analyzing text field changes.
         """
@@ -160,7 +161,7 @@ class ActionDetector:
         
         return typing_actions
     
-    def _detect_scrolling(self, frames: list[Frame]) -> list[ActionDetection]:
+    def _detect_scrolling(self, frames: List[Frame]) -> List[ActionDetection]:
         """
         Detect scroll actions by analyzing content movement.
         """
@@ -204,7 +205,7 @@ class ActionDetector:
         self,
         img1: Image.Image,
         img2: Image.Image
-    ) -> tuple[int, int] | None:
+    ) -> Optional[Tuple[int, int]]:
         """Find the center of the region with most change."""
         arr1 = np.array(img1.convert("L"))
         arr2 = np.array(img2.convert("L"))
@@ -261,7 +262,7 @@ class ActionDetector:
         
         return delta
     
-    def _filter_actions(self, actions: list[ActionDetection]) -> list[ActionDetection]:
+    def _filter_actions(self, actions: List[ActionDetection]) -> List[ActionDetection]:
         """
         Filter out duplicate or overlapping actions.
         """

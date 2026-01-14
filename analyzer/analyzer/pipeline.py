@@ -2,8 +2,9 @@
 Main analysis pipeline for processing video recordings.
 """
 
+from __future__ import annotations
 from pathlib import Path
-from typing import Generator
+from typing import Generator, List, Optional
 import logging
 
 from analyzer.config import AnalyzerConfig
@@ -28,7 +29,7 @@ class AnalysisPipeline:
     4. Workflow mapping - Map detected elements and actions to workflow
     """
     
-    def __init__(self, config: AnalyzerConfig | None = None, verbose: bool = False):
+    def __init__(self, config: Optional[AnalyzerConfig] = None, verbose: bool = False):
         self.config = config or AnalyzerConfig()
         self.verbose = verbose
         

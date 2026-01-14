@@ -2,8 +2,9 @@
 Video frame extraction.
 """
 
+from __future__ import annotations
 from pathlib import Path
-from typing import Generator
+from typing import Generator, List, Optional
 import logging
 
 import cv2
@@ -21,14 +22,14 @@ class FrameExtractor:
     Extracts frames from video files at regular intervals.
     """
     
-    def __init__(self, config: FrameExtractionConfig | None = None):
+    def __init__(self, config: Optional[FrameExtractionConfig] = None):
         self.config = config or FrameExtractionConfig()
     
     def extract(
         self,
         video_path: Path,
-        interval: float | None = None
-    ) -> list[Frame]:
+        interval: Optional[float] = None
+    ) -> List[Frame]:
         """
         Extract frames from video at regular intervals.
         
@@ -44,7 +45,7 @@ class FrameExtractor:
     def extract_streaming(
         self,
         video_path: Path,
-        interval: float | None = None
+        interval: Optional[float] = None
     ) -> Generator[Frame, None, None]:
         """
         Extract frames from video as a generator.
@@ -127,7 +128,7 @@ class FrameExtractor:
         finally:
             cap.release()
     
-    def extract_keyframes(self, video_path: Path) -> list[Frame]:
+    def extract_keyframes(self, video_path: Path) -> List[Frame]:
         """
         Extract keyframes (scene changes) from video.
         

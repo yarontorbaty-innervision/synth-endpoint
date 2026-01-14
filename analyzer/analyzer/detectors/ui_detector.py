@@ -2,7 +2,8 @@
 UI element detection using ML models.
 """
 
-from typing import Any
+from __future__ import annotations
+from typing import Any, Dict, Optional
 import logging
 import uuid
 
@@ -17,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 # Mapping from model labels to UI element types
-LABEL_TO_TYPE: dict[str, UIElementType] = {
+LABEL_TO_TYPE: Dict[str, UIElementType] = {
     "button": UIElementType.BUTTON,
     "text_input": UIElementType.TEXT_INPUT,
     "textbox": UIElementType.TEXT_INPUT,
@@ -54,7 +55,7 @@ class UIDetector:
     Uses YOLO-based detection for UI components and OCR for text extraction.
     """
     
-    def __init__(self, config: UIDetectionConfig | None = None):
+    def __init__(self, config: Optional[UIDetectionConfig] = None):
         self.config = config or UIDetectionConfig()
         self.model = None
         self.ocr = None
