@@ -9,5 +9,6 @@ Supports macOS and Windows.
 
 from analyzer.playback.os_controller import OSController
 from analyzer.playback.workflow_player import WorkflowPlayer
+from analyzer.playback.coordinated_player import CoordinatedPlayer, demo_sequence
 
-__all__ = ["OSController", "WorkflowPlayer"]
+__all__ = ["OSController", "WorkflowPlayer", "CoordinatedPlayer", "demo_sequence"]
