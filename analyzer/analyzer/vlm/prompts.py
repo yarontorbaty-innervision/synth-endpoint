@@ -1,193 +1,157 @@
 """
-Prompts for VLM-based video analysis.
+Optimized prompts for VLM-based video analysis.
+
+These prompts are designed to get structured, actionable output
+from vision language models like moondream, llava, etc.
 """
 
-# System context for all analysis
-SYSTEM_CONTEXT = """You are an expert UI/UX analyst specializing in understanding business software interfaces.
-Your task is to analyze screenshots from screen recordings and extract structured information about:
-1. UI elements (buttons, inputs, dropdowns, tables, etc.)
-2. User actions (clicks, typing, navigation)
-3. Application workflow patterns
+# =============================================================================
+# Screen Analysis Prompts
+# =============================================================================
 
-Always respond with valid JSON that can be parsed programmatically."""
+SCREEN_ANALYSIS_PROMPT = """Analyze this screenshot and provide:
 
+APP: [application name visible in title bar or UI]
+TYPE: [login/form/list/dashboard/detail/modal/menu]
+ELEMENTS:
+- [element type]: [label/text] at [position description]
+- [element type]: [label/text] at [position description]
+...
 
-UI_ELEMENT_DETECTION_PROMPT = """Analyze this screenshot and identify ALL UI elements visible in the interface.
+Example response:
+APP: SwipeSimple
+TYPE: login
+ELEMENTS:
+- input: "Username" at top center
+- input: "Password" at middle center  
+- button: "Sign In" at bottom center
+- link: "Forgot Password?" at bottom"""
+
+UI_ELEMENTS_PROMPT = """List ALL interactive elements visible in this screenshot.
 
 For each element, provide:
-- type: The element type (one of: text_input, password_input, textarea, dropdown, combobox, checkbox, radio, toggle, button, link, tab, menu_item, table, date_picker, slider, label, heading, icon, image, modal, panel, sidebar, toolbar, navigation)
-- bounds: Approximate position as {x, y, width, height} in pixels (estimate based on the image)
-- text: Any visible text content
-- placeholder: Placeholder text if visible
-- label: Associated label text
-- enabled: Whether the element appears enabled (true/false)
-- value: Current value if visible
+TYPE | LABEL | LOCATION
 
-Focus on interactive elements and important labels. Group related elements logically.
+Types: button, input, dropdown, checkbox, link, tab, menu
 
-Respond with a JSON object in this exact format:
-```json
+Example:
+button | Sign In | bottom center
+input | Email | top center
+dropdown | Select Card | middle left
+checkbox | Remember me | bottom left
+
+List elements now:"""
+
+SCREEN_DIFF_PROMPT = """Compare these two screenshots.
+
+Answer:
+1. SAME_SCREEN: yes/no
+2. CHANGES: [what changed between them]
+3. ACTION: [what user action caused the change - click/type/scroll/navigate]
+4. TARGET: [what element was interacted with]
+
+Be specific and brief."""
+
+# =============================================================================
+# Action Detection Prompts  
+# =============================================================================
+
+ACTION_DETECTION_PROMPT = """Look at these two consecutive screenshots.
+
+What user action happened between them?
+
+Answer in this format:
+ACTION: [click/type/select/scroll/navigate/none]
+TARGET: [what was clicked/typed into]
+VALUE: [text typed or option selected, if any]
+RESULT: [what changed after the action]
+
+Be specific. If no action detected, say ACTION: none"""
+
+TYPING_DETECTION_PROMPT = """Compare these screenshots.
+
+Is there new text typed in any field?
+
+Answer:
+TYPING: yes/no
+FIELD: [which field]
+TEXT: [what was typed]"""
+
+# =============================================================================
+# Workflow Extraction Prompts
+# =============================================================================
+
+WORKFLOW_SUMMARY_PROMPT = """Analyze this sequence of screenshots showing a user workflow.
+
+Describe:
+1. WORKFLOW_NAME: [descriptive name]
+2. APPLICATION: [main app being used]
+3. STEPS: 
+   - Step 1: [action and purpose]
+   - Step 2: [action and purpose]
+   ...
+4. DATA_ENTERED: [any text/values the user entered]
+
+Be specific about what the user did."""
+
+# =============================================================================
+# Element Extraction (JSON-focused)
+# =============================================================================
+
+JSON_SCREEN_PROMPT = """Analyze this screenshot. Output ONLY valid JSON, no other text.
+
 {
-  "screen_name": "descriptive name for this screen",
-  "screen_description": "what this screen is for",
-  "application": "name of the application if identifiable",
+  "app": "application name",
+  "screen": "screen name or type",
   "elements": [
-    {
-      "type": "button",
-      "bounds": {"x": 100, "y": 200, "width": 120, "height": 40},
-      "text": "Submit",
-      "enabled": true
-    }
+    {"type": "button", "label": "text on button", "position": "top/middle/bottom left/center/right"},
+    {"type": "input", "label": "field label", "position": "position"},
+    {"type": "dropdown", "label": "dropdown label", "position": "position"}
   ]
 }
-```"""
 
+Output JSON only:"""
 
-ACTION_DETECTION_PROMPT = """Compare these two consecutive screenshots and identify what user action occurred between them.
+JSON_ACTION_PROMPT = """Compare these two screenshots. Output ONLY valid JSON.
 
-Analyze:
-1. What changed between the frames?
-2. What element was likely interacted with?
-3. What type of action was performed?
-
-Action types:
-- click: Mouse click on an element
-- double_click: Double-click
-- type: Text was entered
-- select: Option was selected from dropdown
-- check/uncheck: Checkbox was toggled
-- scroll: Page was scrolled
-- navigate: User navigated to different screen
-
-Respond with a JSON object:
-```json
 {
-  "action_detected": true,
-  "action": {
-    "type": "click",
-    "target_element": "description of the element clicked",
-    "target_bounds": {"x": 100, "y": 200, "width": 50, "height": 30},
-    "value": null,
-    "description": "User clicked the Submit button"
-  },
-  "screen_changed": false,
-  "confidence": 0.9
+  "action_detected": true or false,
+  "action_type": "click/type/select/scroll/navigate",
+  "target_element": "what was interacted with",
+  "value": "text typed or option selected",
+  "screen_changed": true or false
 }
-```
 
-If no significant action is detected, set action_detected to false."""
+Output JSON only:"""
 
-
-WORKFLOW_MAPPING_PROMPT = """Analyze this sequence of screenshots showing a complete user workflow.
-
-Your task:
-1. Identify the distinct screens/views in the workflow
-2. Understand the purpose of each screen
-3. Map the sequence of user actions
-4. Identify the overall workflow goal
-
-For each screen, note:
-- What application/system is shown
-- Key UI elements and their purpose
-- Data being displayed or entered
-
-Respond with a JSON object:
-```json
-{
-  "workflow_name": "descriptive name",
-  "workflow_description": "what this workflow accomplishes",
-  "applications_used": ["App1", "App2"],
-  "screens": [
-    {
-      "id": "screen_1",
-      "name": "Login Screen",
-      "description": "User authentication",
-      "key_elements": ["username input", "password input", "login button"],
-      "frame_indices": [0, 1, 2]
-    }
-  ],
-  "workflow_steps": [
-    {
-      "step": 1,
-      "screen_id": "screen_1",
-      "action": "type",
-      "target": "username input",
-      "value": "user@example.com",
-      "description": "Enter username"
-    }
-  ]
-}
-```"""
-
-
-SCREEN_SIMILARITY_PROMPT = """Compare these two screenshots and determine if they represent the same screen/view in the application.
-
-Consider:
-- Overall layout similarity
-- Same set of UI elements
-- Same application/context
-- Minor differences (scroll position, input values) don't make screens different
-
-Respond with JSON:
-```json
-{
-  "same_screen": true,
-  "similarity_score": 0.95,
-  "differences": ["different scroll position", "input field has new value"],
-  "reasoning": "Both screenshots show the same login form with minor value changes"
-}
-```"""
-
-
-DATA_EXTRACTION_PROMPT = """Extract all visible text data and values from this screenshot.
-
-Focus on:
-- Form field labels and values
-- Table data (headers and cells)
-- Status messages and notifications
-- Navigation labels
-- Any numbers, dates, or identifiers
-
-Respond with JSON:
-```json
-{
-  "form_fields": [
-    {"label": "Username", "value": "john.doe@example.com", "type": "text_input"},
-    {"label": "Amount", "value": "1,234.56", "type": "text_input"}
-  ],
-  "table_data": {
-    "headers": ["Date", "Description", "Amount"],
-    "rows": [
-      ["10/15/2025", "Invoice #12345", "$500.00"]
-    ]
-  },
-  "labels": ["Dashboard", "Settings", "Logout"],
-  "messages": ["Payment successful"],
-  "identifiers": ["INV-2025-001", "Customer #4567"]
-}
-```"""
-
+# =============================================================================
+# Helper functions
+# =============================================================================
 
 def get_ui_detection_prompt() -> str:
-    """Get the UI element detection prompt."""
-    return UI_ELEMENT_DETECTION_PROMPT
-
+    """Get prompt for UI element detection."""
+    return UI_ELEMENTS_PROMPT
 
 def get_action_detection_prompt() -> str:
-    """Get the action detection prompt for frame comparison."""
+    """Get prompt for action detection between frames."""
     return ACTION_DETECTION_PROMPT
 
-
 def get_workflow_mapping_prompt() -> str:
-    """Get the workflow mapping prompt for full video analysis."""
-    return WORKFLOW_MAPPING_PROMPT
-
+    """Get prompt for workflow summary."""
+    return WORKFLOW_SUMMARY_PROMPT
 
 def get_screen_similarity_prompt() -> str:
-    """Get the screen similarity comparison prompt."""
-    return SCREEN_SIMILARITY_PROMPT
-
+    """Get prompt for comparing two screens."""
+    return SCREEN_DIFF_PROMPT
 
 def get_data_extraction_prompt() -> str:
-    """Get the data extraction prompt."""
-    return DATA_EXTRACTION_PROMPT
+    """Get prompt for extracting data/values."""
+    return TYPING_DETECTION_PROMPT
+
+def get_structured_screen_prompt() -> str:
+    """Get prompt for structured JSON screen analysis."""
+    return JSON_SCREEN_PROMPT
+
+def get_structured_action_prompt() -> str:
+    """Get prompt for structured JSON action detection."""
+    return JSON_ACTION_PROMPT
