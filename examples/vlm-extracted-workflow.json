@@ -1,0 +1,68 @@
+{
+  "id": "workflow_extracted",
+  "name": "Credit Card Payments Workflow (VLM Extracted)",
+  "description": "Workflow automatically extracted from video using moondream VLM",
+  "created_at": "2026-01-14T17:46:48.420890",
+  "screens": [
+    {
+      "id": "screen_1",
+      "name": "Screen 1",
+      "timestamp": 0.0,
+      "source_frame": "frame_000_0.0s.jpg"
+    },
+    {
+      "id": "screen_2",
+      "name": "Screen 2",
+      "timestamp": 49.9,
+      "source_frame": "frame_010_49.9s.jpg"
+    },
+    {
+      "id": "screen_3",
+      "name": "Screen 3",
+      "timestamp": 99.8,
+      "source_frame": "frame_020_99.8s.jpg"
+    },
+    {
+      "id": "screen_4",
+      "name": "Screen 4",
+      "timestamp": 149.6,
+      "source_frame": "frame_030_149.6s.jpg"
+    },
+    {
+      "id": "screen_5",
+      "name": "Screen 5",
+      "timestamp": 199.5,
+      "source_frame": "frame_040_199.5s.jpg"
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_1",
+      "type": "navigate",
+      "from_screen": "screen_1",
+      "to_screen": "screen_2",
+      "timestamp": 49.9
+    },
+    {
+      "id": "action_2",
+      "type": "navigate",
+      "from_screen": "screen_2",
+      "to_screen": "screen_3",
+      "timestamp": 99.8
+    },
+    {
+      "id": "action_3",
+      "type": "navigate",
+      "from_screen": "screen_3",
+      "to_screen": "screen_4",
+      "timestamp": 149.6
+    },
+    {
+      "id": "action_4",
+      "type": "navigate",
+      "from_screen": "screen_4",
+      "to_screen": "screen_5",
+      "timestamp": 199.5
+    }
+  ]
+}
